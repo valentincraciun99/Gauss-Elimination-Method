@@ -1,11 +1,7 @@
 from numpy import array, zeros, fabs,linalg
 
-def elimination(matrix):
-    for k in range(n - 2):
-        factor = a[k][k]
 
-
-a = array([[0,7,-1,1,1],
+a = array([[0,7,-1,3,1],
            [0,3,4,1,7],
            [6,2,0,2,-1],
            [2,1,2,0,2],
@@ -14,10 +10,8 @@ a = array([[0,7,-1,1,1],
 b = array([5,7,2,3,4], float)
 n = len(b)
 x = zeros(n, float)
-eps = 0.5e-5
+eps = 0.5e-15
 
-print(a[1, 1])
-print(b)
 
 # Elimination
 for k in range(n):
@@ -34,9 +28,18 @@ for k in range(n):
         factor = a[k, k] / a[i, k]
         for j in range(k, n):
             a[i, j] = a[k, j] - a[i, j] * factor
-            b[i] = b[k] - factor * b[i]
+        b[i] = b[k] - factor * b[i]
 
-print(a)
-print(b)
+#Back substitution
+x[n-1]=b[n-1]/a[n-1][n-1]
 
-# Elimination
+for i in range(n-2,-1,-1):
+    sum=0
+    for j in range(i+1,n):
+        sum+=(x[j]*a[i,j])
+    x[i]=(b[i]-sum)/a[i,i]
+
+
+
+print(x)
+
